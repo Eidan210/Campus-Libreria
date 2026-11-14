@@ -14,6 +14,7 @@ public class HolaController {
     @GetMapping("/saludo")
     public String hola() {
         // 4) Lo que retornas es lo que ve el navegador
-        return "Librería Campus API funcionando";
+        // /api/saludo
+        return "Librería Campus API funcionando yes sir";
     }
 }
