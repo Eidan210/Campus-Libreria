@@ -24,7 +24,7 @@ public class Libro {
 
     private boolean disponible;
 
-    public Libro(String titulo, String isbn, int anioPublicacion){
+    public Libro(String titulo,String isbn, int anioPublicacion){
         this.titulo = titulo;
         this.isbn = isbn;
         this.anioPublicacion = anioPublicacion;
