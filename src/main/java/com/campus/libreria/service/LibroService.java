@@ -31,8 +31,8 @@ public class LibroService {
 
     public List<String> titulosDisponibles(){
         return repository.findAll().stream()
-                .filter(Libro::disponible)
-                .map(Libro::titulo)
+                .filter(Libro::isDisponible)
+                .map(Libro::getTitulo)
                 .toList();
     }
 
@@ -50,7 +50,7 @@ public class LibroService {
     @PostConstruct   // Spring lo llama UNA vez, apenas termina de crear el bean
     void alIniciar() {
         // Los {} se reemplazan por los valores, en orden. Es mejor que concatenar con +
-        log.info("LibroService listo con {} libros", repository.findAll().size());
+        log.info("LibroService listo con {} libros", repository.count());
     }
 
 }
