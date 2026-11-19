@@ -24,6 +24,10 @@ public class Libro {
 
     private boolean disponible;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "autor_id")
+    private Autor autor;
+
     public Libro(String titulo,String isbn, int anioPublicacion){
         this.titulo = titulo;
         this.isbn = isbn;
