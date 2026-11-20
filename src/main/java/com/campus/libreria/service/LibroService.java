@@ -30,8 +30,7 @@ public class LibroService {
     } SE BORRO POR QUE USAREMOS @RequiredArgsConstructor*/
 
     public List<String> titulosDisponibles(){
-        return repository.findAll().stream()
-                .filter(Libro::isDisponible)
+        return repository.findByDisponibleTrue().stream()
                 .map(Libro::getTitulo)
                 .toList();
     }
