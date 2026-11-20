@@ -34,4 +34,12 @@ public class Libro {
         this.anioPublicacion = anioPublicacion;
         this.disponible = true;
     }
+
+    public void asignarAutor(Autor autor){
+        if(autor == null){
+            throw new IllegalArgumentException("No se ingreso un autor con que trabajar");
+        }
+        this.autor = autor;
+    }
+
 }
