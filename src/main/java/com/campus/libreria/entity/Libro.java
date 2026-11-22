@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,4 +44,15 @@ public class Libro {
         this.autor = autor;
     }
 
+    public void marcarPrestado(){
+        if (!disponible){
+            throw new IllegalStateException("El libro no esta disponible");
+        }
+
+        this.disponible = false;
+    }
+
+    public void marcarDevuelto(){
+        this.disponible = true;
+    }
 }

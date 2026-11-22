@@ -43,4 +43,13 @@ public class Prestamo {
         this.fechaPrestamo = fechaPrestamo;
         this.fechaLimite = fechaLimite;
     }
+
+    public void registrarDevolucion(LocalDate fecha, long multa){
+        if(fechaDevolucion != null){
+            throw new IllegalStateException("Este libro ya fue devuelto");
+        }
+
+        this.fechaDevolucion = fecha;
+        this.multa = multa;
+    }
 }
