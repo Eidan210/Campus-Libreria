@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Slf4j
 @Service
@@ -56,6 +57,24 @@ public class PrestamoService {
        Prestamo prestado = new Prestamo(libro, socio, hoy, hoy.plusDays(14));
 
        return prestamoRepository.save(prestado);
+   }
+
+   @Transactional
+   public Prestamo devolver(Long prestamoId){
+        Prestamo prestamo = prestamoRepository.findById(prestamoId)
+                .orElseThrow(()-> new IllegalArgumentException("No se encontro prestamo con ese ID"));
+
+        LocalDate hoy = LocalDate.now(clock);
+       long diasRetraso = ChronoUnit.DAYS.between(prestamo.getFechaLimite(), hoy);
+       diasRetraso = Math.max(diasRetraso, 0);
+
+       long valorMulta = multa((int) diasRetraso, prestamo.getSocio().isEsEstudiante());
+
+       prestamo.registrarDevolucion(hoy, valorMulta);
+
+       prestamo.getLibro().marcarDevuelto();
+
+       return prestamo;
    }
 
    @PostConstruct
