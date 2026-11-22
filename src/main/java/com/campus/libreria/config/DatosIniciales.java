@@ -8,6 +8,7 @@ import com.campus.libreria.repository.LibroRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class DatosIniciales {
 
     @Bean
+    @Order(1)
     public CommandLineRunner cargarLibros(LibroRepository repository, AutorRepository autorRepo){
         return  args -> {
             if (repository.count() == 0){
