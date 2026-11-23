@@ -2,6 +2,7 @@ package com.campus.libreria.config;
 
 import com.campus.libreria.entity.Prestamo;
 import com.campus.libreria.entity.Socio;
+import com.campus.libreria.repository.PrestamoRepository;
 import com.campus.libreria.repository.SocioRepository;
 import com.campus.libreria.service.PrestamoService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +17,9 @@ public class PruebaPrestamos {
 
     @Bean
     @Order(2)
-    public CommandLineRunner probarPrestamos(PrestamoService service, SocioRepository socioRepo){
+    public CommandLineRunner probarPrestamos(PrestamoService service, SocioRepository socioRepo, PrestamoRepository prestamoRepo){
         return args -> {
+            if (prestamoRepo.count() > 0) { return; }
             Socio socio;
             if(socioRepo.count() == 0){
                 socio = socioRepo.save(new Socio("Marian", "marian@gmail.com", true));
