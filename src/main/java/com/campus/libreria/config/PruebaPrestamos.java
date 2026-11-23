@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
+import java.time.LocalDate;
+
 @Slf4j
 @Configuration
 public class PruebaPrestamos {
@@ -19,6 +21,7 @@ public class PruebaPrestamos {
     @Order(2)
     public CommandLineRunner probarPrestamos(PrestamoService service, SocioRepository socioRepo, PrestamoRepository prestamoRepo){
         return args -> {
+            log.info("Prestamos vencidos {}", prestamoRepo.findVencidos(LocalDate.now()).size());
             if (prestamoRepo.count() > 0) { return; }
             Socio socio;
             if(socioRepo.count() == 0){
