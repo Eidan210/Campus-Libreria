@@ -5,8 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -50,6 +48,10 @@ public class Libro {
         }
 
         this.disponible = false;
+    }
+
+    void quitarAutor(){
+        this.autor = null;
     }
 
     public void marcarDevuelto(){

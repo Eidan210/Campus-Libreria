@@ -24,8 +24,20 @@ public class Autor {
     @Column(length = 60)
     private String nacionalidad;
 
-    @OneToMany(mappedBy = "autor")
+    @OneToMany(mappedBy = "autor",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true)
     private List<Libro> libros = new ArrayList<>();
+
+    public void agregarLibro(Libro libro){
+        libros.add(libro);
+        libro.asignarAutor(this);
+    }
+
+    public void quitarLibro(Libro libro){
+        libros.remove(libro);
+        libro.quitarAutor();
+    }
 
     public Autor(String nombre, String nacionalidad){
         this.nombre = nombre;
