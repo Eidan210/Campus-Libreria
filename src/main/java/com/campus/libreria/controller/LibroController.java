@@ -1,11 +1,11 @@
 package com.campus.libreria.controller;
 
+import com.campus.libreria.dto.LibroResponse;
 import com.campus.libreria.notificacion.Notificador;
 import com.campus.libreria.service.LibroService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +19,18 @@ public class LibroController {
     public LibroController(LibroService service, @Qualifier("smsNotificador")Notificador sms){
         this.service = service;
         this.sms = sms;
+    }
+
+    @GetMapping
+    public Page<LibroResponse> listar(
+            @RequestParam(defaultValue = "0")int page,
+            @RequestParam(defaultValue = "5")int size){
+        return service.listar(page, size);
+    }
+
+    @GetMapping("/{id}")
+    public LibroResponse buscar(@PathVariable Long id){
+        return service.buscarPorId(id);
     }
 
     @GetMapping("/disponibles")
