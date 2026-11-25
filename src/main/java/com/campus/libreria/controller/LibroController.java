@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -53,10 +55,16 @@ public class LibroController {
     }
 
     // TODO mañana: terminar POST (falta @RequestBody, la URI y .body(...))
-    /*@PostMapping
-    public ResponseEntity<LibroResponse> crear(@NotNull @Valid LibroRequest request){
+    @PostMapping
+    public ResponseEntity<LibroResponse> crear(@Valid @RequestBody LibroRequest request){
         LibroResponse resultado = service.crear(request);
 
-        return ResponseEntity.created();
-    }*/
+        URI ubicacion = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(resultado.id())
+                .toUri();
+
+        return ResponseEntity.created(ubicacion).body(resultado);
+    }
 }
