@@ -1,9 +1,12 @@
 package com.campus.libreria.service;
 
+import com.campus.libreria.dto.LibroRequest;
 import com.campus.libreria.dto.LibroResponse;
+import com.campus.libreria.entity.Autor;
 import com.campus.libreria.entity.Libro;
 import com.campus.libreria.mapper.LibroMapper;
 import com.campus.libreria.notificacion.Notificador;
+import com.campus.libreria.repository.AutorRepository;
 import com.campus.libreria.repository.LibroRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ import java.util.List;
 public class LibroService {
     // Las 4 dependencias: private (solo yo las uso) y final (llegan una vez y no cambian)
     private final LibroRepository repository;
+    private final AutorRepository autorRepository;
     private final Notificador notificador;
     private final Clock reloj;
     private final LibroMapper libroMapper;
@@ -58,6 +62,20 @@ public class LibroService {
         Page<Libro> libros = repository.findAll(PageRequest.of(pagina,tamanio, Sort.by("titulo")));
 
         return libros.map(libroMapper::toResponse);
+    }
+
+    @Transactional
+    public LibroResponse crear(LibroRequest request){
+        Autor autor = autorRepository.findById(request.autorId())
+                .orElseThrow(()-> new IllegalArgumentException("No se encontro autor con este ID: "+request.autorId()));
+
+        Libro libro = new Libro(request.titulo(), request.isbn(), request.anioPublicacion());
+
+        autor.agregarLibro(libro);
+
+        Libro guardado = repository.save(libro);
+
+        return libroMapper.toResponse(guardado);
     }
 
     @Transactional(readOnly = true)

@@ -1,10 +1,14 @@
 package com.campus.libreria.controller;
 
+import com.campus.libreria.dto.LibroRequest;
 import com.campus.libreria.dto.LibroResponse;
 import com.campus.libreria.notificacion.Notificador;
 import com.campus.libreria.service.LibroService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,4 +51,12 @@ public class LibroController {
     public String avisoSms(){
         return sms.enviar("Tu préstamo vence mañana");
     }
+
+    // TODO mañana: terminar POST (falta @RequestBody, la URI y .body(...))
+    /*@PostMapping
+    public ResponseEntity<LibroResponse> crear(@NotNull @Valid LibroRequest request){
+        LibroResponse resultado = service.crear(request);
+
+        return ResponseEntity.created();
+    }*/
 }
