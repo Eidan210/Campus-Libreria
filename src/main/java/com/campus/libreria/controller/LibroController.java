@@ -6,6 +6,7 @@ import com.campus.libreria.notificacion.Notificador;
 import com.campus.libreria.service.LibroService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,6 @@ public class LibroController {
         return sms.enviar("Tu préstamo vence mañana");
     }
 
-    // TODO mañana: terminar POST (falta @RequestBody, la URI y .body(...))
     @PostMapping
     public ResponseEntity<LibroResponse> crear(@Valid @RequestBody LibroRequest request){
         LibroResponse resultado = service.crear(request);
@@ -66,5 +66,12 @@ public class LibroController {
                 .toUri();
 
         return ResponseEntity.created(ubicacion).body(resultado);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id){
+        service.eliminar(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

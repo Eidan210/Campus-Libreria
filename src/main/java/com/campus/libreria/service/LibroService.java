@@ -86,6 +86,14 @@ public class LibroService {
         return libroMapper.toResponse(libro);
     }
 
+    @Transactional
+    public void eliminar(Long id){
+        Libro libro = repository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("No existe un libro con ese ID: "+ id));
+
+        repository.delete(libro);
+    }
+
     @PostConstruct   // Spring lo llama UNA vez, apenas termina de crear el bean
     void alIniciar() {
         // Los {} se reemplazan por los valores, en orden. Es mejor que concatenar con +
