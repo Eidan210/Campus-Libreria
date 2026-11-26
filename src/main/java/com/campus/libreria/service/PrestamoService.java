@@ -1,8 +1,10 @@
 package com.campus.libreria.service;
 
+import com.campus.libreria.dto.PrestamoResponse;
 import com.campus.libreria.entity.Libro;
 import com.campus.libreria.entity.Prestamo;
 import com.campus.libreria.entity.Socio;
+import com.campus.libreria.mapper.PrestamoMapper;
 import com.campus.libreria.multa.CalculadoraMulta;
 import com.campus.libreria.repository.LibroRepository;
 import com.campus.libreria.repository.PrestamoRepository;
@@ -27,15 +29,17 @@ public class PrestamoService {
     private final SocioRepository socioRepository;
     private final PrestamoRepository prestamoRepository;
     private final Clock clock;
+    private final PrestamoMapper prestamoMapper;
 
 
-    public PrestamoService(CalculadoraMulta estandar, @Qualifier("multaEstudiante") CalculadoraMulta estudiante, LibroRepository libroRepository, SocioRepository socioRepository, PrestamoRepository prestamoRepository, Clock clock) {
+    public PrestamoService(CalculadoraMulta estandar, @Qualifier("multaEstudiante") CalculadoraMulta estudiante, LibroRepository libroRepository, SocioRepository socioRepository, PrestamoRepository prestamoRepository, Clock clock,PrestamoMapper prestamoMapper) {
         this.estandar = estandar;
         this.estudiante = estudiante;
         this.libroRepository = libroRepository;
         this.socioRepository = socioRepository;
         this.prestamoRepository = prestamoRepository;
         this.clock = clock;
+        this.prestamoMapper = prestamoMapper;
     }
 
     public long multa(int dias, boolean esEstudiante){
@@ -43,7 +47,7 @@ public class PrestamoService {
    }
 
    @Transactional
-   public Prestamo prestar(Long libroId, Long socioId){
+   public PrestamoResponse prestar(Long libroId, Long socioId){
        Libro libro = libroRepository.findById(libroId)
                .orElseThrow(()-> new IllegalArgumentException("No existe un libro con ese ID"));
 
@@ -56,11 +60,13 @@ public class PrestamoService {
 
        Prestamo prestado = new Prestamo(libro, socio, hoy, hoy.plusDays(14));
 
-       return prestamoRepository.save(prestado);
+       Prestamo guardado = prestamoRepository.save(prestado);
+
+       return prestamoMapper.toResponse(guardado);
    }
 
    @Transactional
-   public Prestamo devolver(Long prestamoId){
+   public PrestamoResponse devolver(Long prestamoId){
         Prestamo prestamo = prestamoRepository.findById(prestamoId)
                 .orElseThrow(()-> new IllegalArgumentException("No se encontro prestamo con ese ID"));
 
@@ -74,7 +80,7 @@ public class PrestamoService {
 
        prestamo.getLibro().marcarDevuelto();
 
-       return prestamo;
+       return prestamoMapper.toResponse(prestamo);
    }
 
    @PostConstruct

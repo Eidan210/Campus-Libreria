@@ -1,5 +1,6 @@
 package com.campus.libreria.config;
 
+import com.campus.libreria.dto.PrestamoResponse;
 import com.campus.libreria.entity.Libro;
 import com.campus.libreria.entity.Prestamo;
 import com.campus.libreria.entity.Socio;
@@ -40,8 +41,8 @@ public class PruebaPrestamos {
                 socio = socioRepo.findAll().get(0);
             }
 
-            Prestamo p = service.prestar(1L, socio.getId());
-            log.info("Préstamo {} creado, vence el {}", p.getId(), p.getFechaLimite());
+            PrestamoResponse p = service.prestar(1L, socio.getId());
+            log.info("Préstamo {} creado, vence el {}", p.idPrestamo(), p.fechaLimite());
 
             try {
                 service.prestar(1L, socio.getId());
@@ -49,8 +50,8 @@ public class PruebaPrestamos {
                 log.warn("Regla funcionando: {}", e.getMessage());
             }
 
-            Prestamo devuelto = service.devolver(p.getId());
-            log.info("Devuelto. Multa: {}", devuelto.getMulta());
+            PrestamoResponse devuelto = service.devolver(p.idPrestamo());
+            log.info("Devuelto. Multa: {}", devuelto.multa());
         };
     }
 }
