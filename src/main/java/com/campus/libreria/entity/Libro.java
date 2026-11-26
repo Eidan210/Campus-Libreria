@@ -1,5 +1,7 @@
 package com.campus.libreria.entity;
 
+import com.campus.libreria.dto.LibroRequest;
+import com.campus.libreria.dto.LibroResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -56,5 +58,11 @@ public class Libro {
 
     public void marcarDevuelto(){
         this.disponible = true;
+    }
+
+    public void actualizarDatos(String titulo, String isbn, int anioPublicacion){
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.anioPublicacion = anioPublicacion;
     }
 }

@@ -1,5 +1,6 @@
 package com.campus.libreria.service;
 
+import com.campus.libreria.controller.LibroController;
 import com.campus.libreria.dto.LibroRequest;
 import com.campus.libreria.dto.LibroResponse;
 import com.campus.libreria.entity.Autor;
@@ -92,6 +93,29 @@ public class LibroService {
                 .orElseThrow(()-> new IllegalArgumentException("No existe un libro con ese ID: "+ id));
 
         repository.delete(libro);
+    }
+
+    @Transactional
+    public LibroResponse actualizar(Long id, LibroRequest request){
+        Libro libro = repository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("No se encontro libro con ese ID: "+id));
+
+        Autor autor = autorRepository.findById(request.autorId())
+                .orElseThrow(()-> new IllegalArgumentException("No existe autor con este ID: "+request.autorId()));
+
+        libro.actualizarDatos(request.titulo(), request.isbn(), request.anioPublicacion());
+
+        Autor autorActual = libro.getAutor();
+
+        if (autorActual != null && !autorActual.getId().equals(autor.getId())){
+            autorActual.quitarLibro(libro);
+            autor.agregarLibro(libro);
+        }
+        if (autorActual == null){
+            autor.agregarLibro(libro);
+        }
+
+        return libroMapper.toResponse(libro);
     }
 
     @PostConstruct   // Spring lo llama UNA vez, apenas termina de crear el bean

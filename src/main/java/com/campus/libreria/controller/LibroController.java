@@ -68,6 +68,13 @@ public class LibroController {
         return ResponseEntity.created(ubicacion).body(resultado);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<LibroResponse> actualizar(@PathVariable Long id, @Valid @RequestBody LibroRequest request){
+        LibroResponse resultado = service.actualizar(id, request);
+
+        return ResponseEntity.ok(resultado);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id){
         service.eliminar(id);
