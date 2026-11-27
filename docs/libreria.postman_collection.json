@@ -1,0 +1,272 @@
+{
+  "info": {
+    "_postman_id": "9b94c881-ebe5-432d-a258-07f4f4b0b882",
+    "name": "Libreria Campus API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59070135",
+    "_collection_link": "https://go.postman.co/collection/59070135-9b94c881-ebe5-432d-a258-07f4f4b0b882?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Prestar",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"libroId\": 1, \"socioId\":  1 }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/prestamos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "prestamos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/libros?page=0&size=5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "libros"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "buscar por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/libros/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "libros",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/libros",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "libros"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"titulo\": \"Rayuela\", \"isbn\": \"978-84-376-0494-7\", \"anioPublicacion\": 1963, \"autorId\": 1 }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear Invalido ERROR 400",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/libros",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "libros"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"titulo\": \"\", \"isbn\": \"123\", \"anioPublicacion\": 2020, \"autorId\": 1 }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/libros/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "libros",
+            "2"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"titulo\": \"Cien años de soledad\", \"isbn\": \"978-03-074-7472-8\", \"anioPublicacion\": 1967, \"autorId\": 2 }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/libros/6",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "libros",
+            "6"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Disponibles",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/libros/disponibles",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "libros",
+            "disponibles"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Prestar sin socio ERROR 400",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"libroId\": 2 }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/prestamos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "prestamos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Devolver",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/prestamos/2/devolucion",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "prestamos",
+            "2",
+            "devolucion"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
