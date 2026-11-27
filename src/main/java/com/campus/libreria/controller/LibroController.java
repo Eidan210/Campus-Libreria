@@ -5,8 +5,6 @@ import com.campus.libreria.dto.LibroResponse;
 import com.campus.libreria.notificacion.Notificador;
 import com.campus.libreria.service.LibroService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
