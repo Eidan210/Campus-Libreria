@@ -4,6 +4,7 @@ import com.campus.libreria.dto.PrestamoResponse;
 import com.campus.libreria.entity.Libro;
 import com.campus.libreria.entity.Prestamo;
 import com.campus.libreria.entity.Socio;
+import com.campus.libreria.exception.RecursoNoEncontradoException;
 import com.campus.libreria.mapper.PrestamoMapper;
 import com.campus.libreria.multa.CalculadoraMulta;
 import com.campus.libreria.repository.LibroRepository;
@@ -49,10 +50,10 @@ public class PrestamoService {
    @Transactional
    public PrestamoResponse prestar(Long libroId, Long socioId){
        Libro libro = libroRepository.findById(libroId)
-               .orElseThrow(()-> new IllegalArgumentException("No existe un libro con ese ID"));
+               .orElseThrow(()-> new RecursoNoEncontradoException("No existe un libro con ese ID"));
 
        Socio socio = socioRepository.findById(socioId)
-               .orElseThrow(()-> new IllegalArgumentException("No existe socio con ese ID"));
+               .orElseThrow(()-> new RecursoNoEncontradoException("No existe socio con ese ID"));
 
        libro.marcarPrestado();
 
@@ -68,7 +69,7 @@ public class PrestamoService {
    @Transactional
    public PrestamoResponse devolver(Long prestamoId){
         Prestamo prestamo = prestamoRepository.findById(prestamoId)
-                .orElseThrow(()-> new IllegalArgumentException("No se encontro prestamo con ese ID"));
+                .orElseThrow(()-> new RecursoNoEncontradoException("No se encontro prestamo con ese ID"));
 
         LocalDate hoy = LocalDate.now(clock);
        long diasRetraso = ChronoUnit.DAYS.between(prestamo.getFechaLimite(), hoy);

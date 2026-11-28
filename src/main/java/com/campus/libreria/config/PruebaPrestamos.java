@@ -2,8 +2,8 @@ package com.campus.libreria.config;
 
 import com.campus.libreria.dto.PrestamoResponse;
 import com.campus.libreria.entity.Libro;
-import com.campus.libreria.entity.Prestamo;
 import com.campus.libreria.entity.Socio;
+import com.campus.libreria.exception.LibroNoDisponibleException;
 import com.campus.libreria.repository.LibroRepository;
 import com.campus.libreria.repository.PrestamoRepository;
 import com.campus.libreria.repository.SocioRepository;
@@ -46,7 +46,7 @@ public class PruebaPrestamos {
 
             try {
                 service.prestar(1L, socio.getId());
-            }catch (IllegalStateException e) {
+            }catch (LibroNoDisponibleException e) {
                 log.warn("Regla funcionando: {}", e.getMessage());
             }
 

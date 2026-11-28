@@ -2,6 +2,7 @@ package com.campus.libreria.entity;
 
 import com.campus.libreria.dto.LibroRequest;
 import com.campus.libreria.dto.LibroResponse;
+import com.campus.libreria.exception.LibroNoDisponibleException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -46,7 +47,7 @@ public class Libro {
 
     public void marcarPrestado(){
         if (!disponible){
-            throw new IllegalStateException("El libro no esta disponible");
+            throw new LibroNoDisponibleException("El libro no esta disponible");
         }
 
         this.disponible = false;

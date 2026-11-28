@@ -5,6 +5,7 @@ import com.campus.libreria.dto.LibroRequest;
 import com.campus.libreria.dto.LibroResponse;
 import com.campus.libreria.entity.Autor;
 import com.campus.libreria.entity.Libro;
+import com.campus.libreria.exception.RecursoNoEncontradoException;
 import com.campus.libreria.mapper.LibroMapper;
 import com.campus.libreria.notificacion.Notificador;
 import com.campus.libreria.repository.AutorRepository;
@@ -68,7 +69,7 @@ public class LibroService {
     @Transactional
     public LibroResponse crear(LibroRequest request){
         Autor autor = autorRepository.findById(request.autorId())
-                .orElseThrow(()-> new IllegalArgumentException("No se encontro autor con este ID: "+request.autorId()));
+                .orElseThrow(()-> new RecursoNoEncontradoException("No se encontro autor con este ID: "+request.autorId()));
 
         Libro libro = new Libro(request.titulo(), request.isbn(), request.anioPublicacion());
 
@@ -82,7 +83,7 @@ public class LibroService {
     @Transactional(readOnly = true)
     public LibroResponse buscarPorId(Long id){
         Libro libro = repository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("No existe un libro con ese ID"));
+                .orElseThrow(()-> new RecursoNoEncontradoException("No existe un libro con ese ID"));
 
         return libroMapper.toResponse(libro);
     }
@@ -90,7 +91,7 @@ public class LibroService {
     @Transactional
     public void eliminar(Long id){
         Libro libro = repository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("No existe un libro con ese ID: "+ id));
+                .orElseThrow(()-> new RecursoNoEncontradoException("No existe un libro con ese ID: "+ id));
 
         repository.delete(libro);
     }
@@ -98,10 +99,10 @@ public class LibroService {
     @Transactional
     public LibroResponse actualizar(Long id, LibroRequest request){
         Libro libro = repository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("No se encontro libro con ese ID: "+id));
+                .orElseThrow(()-> new RecursoNoEncontradoException("No se encontro libro con ese ID: "+id));
 
         Autor autor = autorRepository.findById(request.autorId())
-                .orElseThrow(()-> new IllegalArgumentException("No existe autor con este ID: "+request.autorId()));
+                .orElseThrow(()-> new RecursoNoEncontradoException("No existe autor con este ID: "+request.autorId()));
 
         libro.actualizarDatos(request.titulo(), request.isbn(), request.anioPublicacion());
 
